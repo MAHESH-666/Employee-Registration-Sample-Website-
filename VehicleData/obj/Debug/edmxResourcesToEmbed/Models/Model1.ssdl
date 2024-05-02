@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TravelInfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="VehicleId" Type="int" />
+    <Property Name="Source" Type="nvarchar" MaxLength="100" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="100" />
+    <Property Name="CalculatedDistance" Type="nvarchar" MaxLength="50" />
+    <Property Name="StartTime" Type="datetime" />
+    <Property Name="EndTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Contact" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="UserVehicles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="VehicleModel" Type="nvarchar" MaxLength="50" />
+    <Property Name="VehicleMake" Type="nvarchar" MaxLength="50" />
+    <Property Name="CertifiedMileage" Type="nvarchar" MaxLength="50" />
+    <Property Name="YearOfManufacturing" Type="int" />
+    <Property Name="YearOfPurchase" Type="int" />
+  </EntityType>
+  <Association Name="FK__TravelInf__UserI__4F7CD00D">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TravelInfo">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TravelInf__Vehic__5070F446">
+    <End Role="UserVehicles" Type="Self.UserVehicles" Multiplicity="0..1" />
+    <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserVehicles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TravelInfo">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserVehic__UserI__4BAC3F29">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="UserVehicles" Type="Self.UserVehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserVehicles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="employeeModelStoreContainer">
+    <EntitySet Name="TravelInfo" EntityType="Self.TravelInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserVehicles" EntityType="Self.UserVehicles" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__TravelInf__UserI__4F7CD00D" Association="Self.FK__TravelInf__UserI__4F7CD00D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="TravelInfo" EntitySet="TravelInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TravelInf__Vehic__5070F446" Association="Self.FK__TravelInf__Vehic__5070F446">
+      <End Role="UserVehicles" EntitySet="UserVehicles" />
+      <End Role="TravelInfo" EntitySet="TravelInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserVehic__UserI__4BAC3F29" Association="Self.FK__UserVehic__UserI__4BAC3F29">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserVehicles" EntitySet="UserVehicles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,31 @@
+﻿/* Custom CSS for form styling */
+
+.card {
+    border: 1px solid blue;
+    border-radius: 20px;
+    box-shadow: 2px 5px 10px 10px blue;
+    
+}
+
+
+.card-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    width: 100%;
+}
+
+/* Apply border radius to bottom corners */
+.card {
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+}

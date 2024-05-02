@@ -1,0 +1,182 @@
+﻿@model VehicleData.Models.TravelInfo
+
+@{
+    ViewBag.Title = "TravelInfo";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TravelInfo</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserId, "Select User Name", htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VehicleId, "Select Vehicle", htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("VehicleId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.VehicleId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Source, new { htmlAttributes = new { @class = "form-control", @id = "start" } })
+                        @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @class = "form-control", @id = "end" } })
+                        @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="find" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default outputResult" style="margin-top: 20px; display: none;">
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="output">Result:</label>
+                <blockquote id="output"></blockquote>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div id="map" style="height: 400px;"></div>
+}
+
+<div>
+    @Html.ActionLink("Back to Userr", "Userr")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHrhMd3b1SSRO6diCRTp9chb-9Abg57fU&callback=initMap"
+            async defer></script>
+    <script>
+    var directionsService;
+        var directionsDisplay;
+
+        function initMap() {
+            directionsService = new google.maps.DirectionsService;
+            directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: { lat: 18.5204, lng: 73.8567 }
+            });
+
+            directionsDisplay.setMap(map);
+
+            var onChangeHandler = function () {
+                calculateAndDisplayRoute();
+            };
+            // document.getElementById('up').addEventListener('change', onChangeHandler);
+
+            document.getElementById('start').addEventListener('change', onChangeHandler);
+            document.getElementById('end').addEventListener('change', onChangeHandler);
+        }
+
+
+        function calculateAndDisplayRoute() {
+            //var Name = document.getElementById('up').value;
+            var origin = document.getElementById('start').value;
+            var destination = document.getElementById('end').value;
+            directionsService.route({
+                origin: origin,
+                destination: destination,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    var calculatedDistance = route.legs[0].distance.text;
+                    directionsDisplay.setDirections(response);
+                    var outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML = 'Distance: ' + route.legs[0].distance.text + '<br>Duration: ' + route.legs[0].duration.text;
+                    $(".outputResult").show();
+                    var duration = route.legs[0].duration.text;
+
+                    // Parse duration string into hours, minutes, and seconds
+                    var timeParts = duration.split(' ');
+                    var hours = parseInt(timeParts[0]);
+                    var minutes = parseInt(timeParts[2]);
+                    var seconds = 0; // Assuming duration format is always 'X hours Y mins'
+
+                    // Convert duration to milliseconds
+                    var durationInMs = hours * 3600000 + minutes * 60000 + seconds * 1000;
+
+                    var selectedUserId = $("#UserId").val();
+                    var selectedVehicleId = $("#VehicleId").val();
+                    var calculatedDistance = route.legs[0].distance.text;
+                    var startTime = new Date().toISOString(); // Use UTC time
+                    var endTime = new Date(Date.now() + durationInMs).toISOString();
+
+
+                    //var distance = route.legs[0].distance.text;
+                    //var duration = route.legs[0].duration.text;
+                    $.ajax({
+                        url: '/Home/TravelInfo',
+                        type: 'POST',
+                        data: {
+                            UserId: selectedUserId,
+                            VehicleId: selectedVehicleId,
+                            Source: origin,
+                            Destination: destination,
+                            CalculatedDistance: calculatedDistance,
+                            StartTime: startTime,
+                            EndTime: endTime
+                        },
+                        success: function (response) {
+                            // Handle success response
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error response
+                            console.error(xhr.responseText);
+                        }
+                    });
+
+                    document.getElementById("distanceForm").reset();
+
+                } //else {
+                //window.alert('Directions request failed due to ' + status);
+                //}
+            });
+        }
+
+        $(document).ready(function () {
+            $("#find").click(function () {
+                calculateAndDisplayRoute();
+            });
+        });</script>
+}

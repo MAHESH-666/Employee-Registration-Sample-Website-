@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="employeeModelStoreContainer" CdmEntityContainer="employeeEntities">
+    <EntitySetMapping Name="TravelInfoes">
+      <EntityTypeMapping TypeName="employeeModel.TravelInfo">
+        <MappingFragment StoreEntitySet="TravelInfo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="CalculatedDistance" ColumnName="CalculatedDistance" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="employeeModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserVehicles">
+      <EntityTypeMapping TypeName="employeeModel.UserVehicle">
+        <MappingFragment StoreEntitySet="UserVehicles">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="VehicleModel" ColumnName="VehicleModel" />
+          <ScalarProperty Name="VehicleMake" ColumnName="VehicleMake" />
+          <ScalarProperty Name="CertifiedMileage" ColumnName="CertifiedMileage" />
+          <ScalarProperty Name="YearOfManufacturing" ColumnName="YearOfManufacturing" />
+          <ScalarProperty Name="YearOfPurchase" ColumnName="YearOfPurchase" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

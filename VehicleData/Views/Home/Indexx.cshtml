@@ -1,0 +1,94 @@
+﻿@model VehicleData.Models.TravelInfoViewModel
+
+@{
+    ViewBag.Title = "Indexx";
+}
+
+<h2 style="color:red; font-size:3rem; text-align:center;">Travel Information</h2>
+<br />
+<br />
+<h3 class="text-success">Employee List</h3>
+<br />
+<div class="table-responsive">
+    <table class="table">
+        <tr class="bg-black text-white">
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+        </tr>
+
+        @foreach (var user in Model.Users)
+        {
+            <tr style="font-size:1.5rem; color:blue">
+                <td>@user.ID</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Contact</td>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </table>
+</div>
+<br />
+<br />
+<h3 class="text-success">User Vehicles</h3>
+<br />
+<div class="table-responsive">
+    <table class="table">
+        <tr class="bg-black text-white">
+            <th>User ID</th>
+            <th>Vehicle Model</th>
+            <th>Vehicle Make</th>
+            <th>Certified Mileage</th>
+            <th>Year of Manufacturing</th>
+            <th>Year of Purchase</th>
+
+        </tr>
+        @foreach (var vehicle in Model.UserVehicles)
+        {
+            <tr style="font-size: 1.5rem; color: blue">
+                <td>@vehicle.UserId</td>
+                <td>@vehicle.VehicleModel</td>
+                <td>@vehicle.VehicleMake</td>
+                <td>@vehicle.CertifiedMileage</td>
+                <td>@vehicle.YearOfManufacturing</td>
+                <td>@vehicle.YearOfPurchase</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<h3 class="text-success">Travel Information</h3>
+<br />
+<div class="table-responsive">
+    <table class="table">
+        <tr class="bg-black text-white">
+            <th>User ID</th>
+            <th>Vehicle ID</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Calculated Distance</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+
+        @foreach (var travel in Model.TravelInfos)
+        {
+            <tr style="font-size: 1.5rem; color: blue">
+                <td>@travel.UserId</td>
+                <td>@travel.VehicleId</td>
+                <td>@travel.Source</td>
+                <td>@travel.Destination</td>
+                <td>@travel.CalculatedDistance</td>
+                <td>@travel.StartTime</td>
+                <td>@travel.EndTime</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Userr")
+</p>

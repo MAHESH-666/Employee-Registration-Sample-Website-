@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <title>Index</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container">
+    <h2 class="text-2xl font-bold mb-4 text-danger text-center">Welcome to Hyderabad</h2>
+    <br/>
+    <br/>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <i class="fas fa-user mr-2" style="font-size: 100px; color: crimson;"></i>
+                <br />
+            </div>
+            <button id="addEmployee" class="btn btn-primary btn-block">
+                <i class="fas fa-user mr-2"></i> Add Employee
+            </button>
+        </div>
+
+
+
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <i class="fas fa-car mr-2" style="font-size: 100px; color: red;"></i>
+            </div>
+            <button id="addEmployeeVehicle" class="btn btn-primary btn-block">
+                <i class="fas fa-car mr-2"></i> Add Employee Vehicle
+            </button>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <i class="fas fa-map-marker-alt mr-2" style="font-size: 100px; color: green;"></i>
+            </div>
+            <button id="employeeTravelData" class="btn btn-primary btn-block">
+                <i class="fas fa-map-marker-alt mr-2"></i> Employee Travel Data
+            </button>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <i class="fa-sharp fa-solid fa-envelope" style="font-size: 100px; color: red;"></i>
+               
+            </div>
+            <button id="addEmployeeVehiclee" class="btn btn-primary btn-block">
+                <i class="fa-sharp fa-solid fa-envelope"></i> Show Data
+            </button>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#addEmployee').click(function () {
+                redirectToAction('@Url.Action("Userr", "Home")');
+            });
+
+            $('#addEmployeeVehicle').click(function () {
+                redirectToAction('@Url.Action("UserVehiclee", "Home")');
+            });
+
+            $('#employeeTravelData').click(function () {
+                redirectToAction('@Url.Action("Travelinfo", "Home")');
+            });
+
+            $('#addEmployeeVehiclee').click(function () {
+                redirectToAction('@Url.Action("Indexx", "Home")');
+             });
+
+            function redirectToAction(url) {
+                window.location.href = url;
+            }
+        });
+
+    </script>
+}

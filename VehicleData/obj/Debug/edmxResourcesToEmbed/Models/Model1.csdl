@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="employeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TravelInfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="VehicleId" Type="Int32" />
+    <Property Name="Source" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CalculatedDistance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StartTime" Type="DateTime" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK__TravelInf__UserI__4F7CD00D" FromRole="TravelInfo" ToRole="Users" />
+    <NavigationProperty Name="UserVehicle" Relationship="Self.FK__TravelInf__Vehic__5070F446" FromRole="TravelInfo" ToRole="UserVehicles" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TravelInfoes" Relationship="Self.FK__TravelInf__UserI__4F7CD00D" FromRole="Users" ToRole="TravelInfo" />
+    <NavigationProperty Name="UserVehicles" Relationship="Self.FK__UserVehic__UserI__4BAC3F29" FromRole="Users" ToRole="UserVehicles" />
+  </EntityType>
+  <EntityType Name="UserVehicle">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="VehicleModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="VehicleMake" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CertifiedMileage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="YearOfManufacturing" Type="Int32" />
+    <Property Name="YearOfPurchase" Type="Int32" />
+    <NavigationProperty Name="TravelInfoes" Relationship="Self.FK__TravelInf__Vehic__5070F446" FromRole="UserVehicles" ToRole="TravelInfo" />
+    <NavigationProperty Name="User" Relationship="Self.FK__UserVehic__UserI__4BAC3F29" FromRole="UserVehicles" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK__TravelInf__UserI__4F7CD00D">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TravelInfo">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TravelInf__Vehic__5070F446">
+    <End Role="UserVehicles" Type="Self.UserVehicle" Multiplicity="0..1" />
+    <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserVehicles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TravelInfo">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserVehic__UserI__4BAC3F29">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="UserVehicles" Type="Self.UserVehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserVehicles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="employeeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TravelInfoes" EntityType="Self.TravelInfo" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UserVehicles" EntityType="Self.UserVehicle" />
+    <AssociationSet Name="FK__TravelInf__UserI__4F7CD00D" Association="Self.FK__TravelInf__UserI__4F7CD00D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="TravelInfo" EntitySet="TravelInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TravelInf__Vehic__5070F446" Association="Self.FK__TravelInf__Vehic__5070F446">
+      <End Role="UserVehicles" EntitySet="UserVehicles" />
+      <End Role="TravelInfo" EntitySet="TravelInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserVehic__UserI__4BAC3F29" Association="Self.FK__UserVehic__UserI__4BAC3F29">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserVehicles" EntitySet="UserVehicles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
